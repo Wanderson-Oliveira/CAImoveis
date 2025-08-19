@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Carlos Arthur Imóveis - Itanhaém e Região</title>
+    <!-- Favicon -->
+    <link rel="icon" href="icon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <style>
+        :root {
+            --bg-primary: #ffffffff;
+            --text-primary: #060606;
+            --purple: #8A2BE2;
+            --gradient: linear-gradient(90deg, var(--purple), rgba(51, 50, 50, 0.8));
+            --tap-highlight: rgba(138, 43, 226, 0.2);
+            --card-bg: rgba(191, 177, 205, 0.269);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --footer-border: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #121212;
+            --text-primary: #ffffff;
+            --card-bg: rgba(191, 177, 205, 0.15);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --footer-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: var(--tap-highlight);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            touch-action: manipulation;
+        }
+        
+        header {
+            background: var(--bg-primary);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-bottom: 2px solid transparent;
+            border-image: var(--gradient);
+            border-image-slice: 1;
+            position: relative;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+        }
+        
+        .logo-img {
+            height: 150px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: clamp(1.8rem, 5vw, 2.2rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+        
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.1rem);
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .contact-section {
+            width: 100%;
+            margin-top: 2rem;
+            padding: 0 1rem;
+        }
+        
+        .contact-title {
+            font-size: clamp(1.3rem, 4vw, 1.5rem);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .contact-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+        }
+        
+        .contact-card:active {
+            transform: scale(0.98);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--purple);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.2);
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .contact-name {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .contact-info {
+            opacity: 0.9;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-cta {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--purple);
+            padding-bottom: 2px;
+            font-size: 0.9rem;
+        }
+        
+        .map-container {
+            width: 100%;
+            margin: 2rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--footer-border);
+        }
+        
+        .dev-contact {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        a {
+            color: var(--purple);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        /* Melhorias para mobile */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 0;
+            }
+            
+            .theme-toggle {
+                top: 0.5rem;
+                right: 0.5rem;
+                width: 35px;
+                height: 35px;
+            }
+            
+            .logo-img {
+                height: 120px;
+            }
+            
+            .hero {
+                padding: 0 1rem;
+            }
+            
+            .hero h1 {
+                margin-bottom: 1.2rem;
+            }
+            
+            .hero p {
+                margin-bottom: 2rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            
+            .contact-card {
+                padding: 1.2rem;
+            }
+            
+            .contact-icon {
+                font-size: 1.8rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .contact-name {
+                font-size: 1.1rem;
+            }
+            
+            .contact-info {
+                font-size: 0.9rem;
+            }
+            
+            .map-container iframe {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-img {
+                height: 100px;
+            }
+            
+            .contact-card {
+                padding: 1rem;
+            }
+            
+            .map-container iframe {
+                height: 200px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-moon"></i>
+        </div>
+        <!-- No seu HEADER, substitua a imagem da logo por: -->
+        <img src="logo-claro.png" alt="Carlos Arthur Imóveis - Itanhaém e Região" 
+            class="logo-img" id="site-logo" data-logo-claro="logo-claro.png" data-logo-escuro="logo-escuro.png">
+    </header>
+    
+    <section class="hero">
+       <br>
+        <p>Especialista em negócios imobiliários na região do litoral sul de SP. Encontre aqui as melhores oportunidades com transparência e profissionalismo.</p>
+        
+        <div class="contact-section">
+            <h2 class="contact-title">Entre em contato</h2>
+            
+            <div class="contact-grid">
+                <a href="https://api.whatsapp.com/send?phone=5513997488914&text=Ola%2C%20sou%20Carlos%20Arthur%20corretor%20de%20im%C3%B3veis%20em%20que%20posso%20ajudar" class="contact-card" target="_blank" rel="noopener">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3 class="contact-name">WhatsApp</h3>
+                    <p class="contact-info">Conversa direta com nosso time</p>
+                    <span class="contact-cta">Enviar mensagem</span>
+                </a>
+                
+                <a href="tel:+5513997488914" class="contact-card" rel="noopener">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3 class="contact-name">Telefone</h3>
+                    <p class="contact-info">(13) 99748-8914</p>
+                    <span class="contact-cta">Ligar agora</span>
+                </a>
+                
+                <a href="https://www.instagram.com/imobiliaria_carlosarthur/" class="contact-card" target="_blank" rel="noopener">
+                    <div class="contact-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <h3 class="contact-name">Instagram</h3>
+                    <p class="contact-info">@carlosarthurimoveis</p>
+                    <span class="contact-cta">Seguir</span>
+                </a>
+                
+                <a href="https://www.facebook.com/profile.php?id=100067742272736#" class="contact-card" target="_blank" rel="noopener">
+                    <div class="contact-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <h3 class="contact-name">Facebook</h3>
+                    <p class="contact-info">/carlosarthurimoveis</p>
+                    <span class="contact-cta">Curta nossa página</span>
+                </a>
+                
+                <a href="https://www.youtube.com/@carlosarthurimoveis3092" class="contact-card" target="_blank" rel="noopener">
+                    <div class="contact-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <h3 class="contact-name">YouTube</h3>
+                    <p class="contact-info">Carlos Arthur Imóveis</p>
+                    <span class="contact-cta">Assista nossos vídeos</span>
+                </a>
+                
+                <a href="https://www.tiktok.com/@imoveisca?_t=ZM-8tsuYDVNvDL&_r=1" class="contact-card" target="_blank" rel="noopener">
+                    <div class="contact-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <h3 class="contact-name">TikTok</h3>
+                    <p class="contact-info">@carlosarthurimoveis</p>
+                    <span class="contact-cta">Siga nosso perfil</span>
+                </a>
+                <a href="https://www.imobiliariacarlosarthur.com.br/" class="contact-card" target="_blank" rel="noopener">
+                    <div class="contact-icon">
+                        <i class="fas fa-globe"></i> 
+                    </div>
+                    <h3 class="contact-name">Site</h3>                    
+                    <span class="contact-cta">Visite nosso site</span>
+                </a>
+            </div>
+
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3634.073643471057!2d-46.7977077!3d-24.1906958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94d1d5e63b4b641b%3A0x567d5e9b3848d51!2sCarlos%20Arthur%20im%C3%B3veis!5e0!3m2!1spt-BR!2sbr!4v1718651236899!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>© <span id="current-year"></span> Carlos Arthur Imóveis - Itanhaém/SP. Todos os direitos reservados.
+        <br>CRECI-SP 203221-F</p>
+        <p class="dev-contact">Site desenvolvido por: wanderson_qaz@hotmail.com</p>
+    </footer>
+
+    <script>
+        // Atualiza o ano automaticamente
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Função para atualizar a logo baseada no tema
+        function atualizarLogoTema() {
+            const logo = document.getElementById('site-logo');
+            const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+            
+            if (logo) {
+                if (isDarkTheme) {
+                    logo.src = logo.getAttribute('data-logo-escuro');
+                } else {
+                    logo.src = logo.getAttribute('data-logo-claro');
+                }
+            }
+        }
+        
+        // Sistema de tema claro/escuro
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Verificar se há uma preferência salva ou usar a preferência do sistema
+        const currentTheme = localStorage.getItem('theme') || (prefersDarkScheme.matches ? 'dark' : 'light');
+        
+        // Aplicar o tema salvo
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        // Atualizar a logo com base no tema inicial
+        atualizarLogoTema();
+        
+        // Alternar entre temas
+        themeToggle.addEventListener('click', () => {
+            let theme = 'light';
+            if (!document.documentElement.getAttribute('data-theme')) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                theme = 'dark';
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            
+            // Atualizar a logo
+            atualizarLogoTema();
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Melhoria para feedback tátil em mobile
+        document.querySelectorAll('.contact-card').forEach(card => {
+            card.addEventListener('touchstart', function() {
+                this.classList.add('active');
+            }, false);
+            
+            card.addEventListener('touchend', function() {
+                this.classList.remove('active');
+            }, false);
+        });
+    </script>
+</body>
+</html>
